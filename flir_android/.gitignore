@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# FLIR Atlas SDK - 100MB가 넘어 깃에 올릴 수 없음. app/libs/README.md 참고
+app/libs/*.aar

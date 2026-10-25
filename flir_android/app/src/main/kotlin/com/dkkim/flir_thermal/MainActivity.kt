@@ -7,41 +7,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.dkkim.flir_thermal.navigation.AppNavDisplay
 import com.dkkim.flir_thermal.ui.theme.FLIR_THERMALTheme
+import com.flir.thermalsdk.androidsdk.ThermalSdkAndroid
+import com.flir.thermalsdk.log.ThermalLog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        ThermalSdkAndroid.init(this, ThermalLog.LogLevel.DEBUG)
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             FLIR_THERMALTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    AppNavDisplay(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FLIR_THERMALTheme {
-        Greeting("Android")
     }
 }

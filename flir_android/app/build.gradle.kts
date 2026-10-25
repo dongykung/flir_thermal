@@ -8,10 +8,9 @@ plugins {
 
 android {
     namespace = "com.dkkim.flir_thermal"
+    // Compose 1.12.x / lifecycle 2.11.0 이 compileSdk 37 이상을 요구한다
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
@@ -35,8 +34,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true

@@ -1,0 +1,173 @@
+/* ── 디자인 토큰 ────────────────────────────────────
+   색상은 시안 기준. 원시 색상(--blue-600 등)은 여기서만 쓰고,
+   컴포넌트에서는 의미 토큰(--brand, --text-strong …)만 참조한다.
+*/
+:root {
+  /* 원시 팔레트 */
+  --blue-50: #eef3fd;
+  --blue-100: #dce7fb;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-900: #17357a;
+
+  --green-50: #e6f6ec;
+  --green-700: #18794e;
+
+  --amber-50: #fdf0e3;
+  --amber-700: #b45309;
+
+  --red-500: #e5484d;
+
+  --gray-50: #f5f6f8;
+  --gray-100: #eef0f4;
+  --gray-200: #e5e7eb;
+  --gray-500: #6b7280;
+  --gray-600: #585b63;
+  --gray-900: #111827;
+
+  /* 의미 토큰 */
+  --brand: var(--blue-600);
+  --brand-strong: var(--blue-900); /* 주요 버튼, 주기 뱃지 */
+  --brand-subtle-bg: var(--blue-50); /* 선택된 탭, 연한 칩 배경 */
+  --brand-subtle-text: var(--blue-700);
+
+  --bg-page: var(--gray-50); /* 콘텐츠 영역 바탕 */
+  --bg-surface: #ffffff; /* 카드, 사이드바, 헤더 */
+  --bg-muted: var(--gray-100); /* 세그먼트 버튼, 중립 뱃지 */
+  --border: var(--gray-200);
+
+  --text-strong: var(--gray-900); /* 제목, 주요 값 */
+  --text: var(--gray-600); /* 본문 */
+  --text-dim: var(--gray-500); /* 보조 설명, 비활성 탭 */
+  --text-on-brand: #ffffff;
+
+  /* 상태 칩 — 점검중/검토중 · 완료 · 재점검 */
+  --status-progress-bg: var(--blue-50);
+  --status-progress-text: var(--blue-700);
+  --status-done-bg: var(--green-50);
+  --status-done-text: var(--green-700);
+  --status-recheck-bg: var(--amber-50);
+  --status-recheck-text: var(--amber-700);
+  --danger: var(--red-500);
+
+  --radius-card: 12px;
+  --radius-control: 8px;
+
+  /* 노치/홈 인디케이터 여백 (WebView 전체화면에서 필수) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  --sans: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR',
+    system-ui, Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Consolas, monospace;
+
+  /* 시안이 라이트 기준이라 다크 모드는 아직 열지 않는다.
+     다크 시안이 나오면 [data-theme='dark'] 블록으로 토큰만 덮어쓰면 된다. */
+  color-scheme: light;
+}
+
+/* ── 리셋 ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  /* 모바일 탭 시 깜빡이는 회색 하이라이트 제거 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+html {
+  /* 아이폰에서 입력창 포커스 시 자동 확대 방지 */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font: 14px/1.5 var(--sans);
+  color: var(--text);
+  background: var(--bg-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* 전체화면 앱 느낌: 바운스 스크롤 / 당겨서 새로고침 차단 */
+  overscroll-behavior: none;
+  /* 전역 스크롤은 막고 필요한 영역에서만 스크롤시킨다 */
+  overflow: hidden;
+  /* 텍스트 길게 눌러 선택되는 동작 차단 (입력 요소는 아래에서 예외) */
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+input,
+textarea,
+[contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+#app {
+  /* dvh: 모바일 브라우저 주소창 접힘에 따라 높이가 정확히 따라온다 */
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--brand-subtle-text);
+}
+
+/* ── 공용 레이아웃 유틸 ─────────────────────────────── */
+
+/* 화면 하나 = safe-area 반영한 전체화면 컨테이너 */
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+/* 화면 안에서 스크롤되는 본문 영역 */
+.scroll-y {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* 카드 — 시안의 흰 박스 */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
